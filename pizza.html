@@ -18,10 +18,18 @@
 
         <!-- Add your site or application content here -->
         <img class="pizza" src="img/thin-crust-pizza.gif" alt="Pizza time" />
+        <div class="coordinates" />
         <script>
-            window.addEventListener('deviceorientation', function(event) {
-                document.querySelector('.pizza').style.webkitTransform = 'rotate(' + event.alpha + 'deg)';
+        if (Modernizr.geolocation) {
+            navigator.geolocation.watchPosition(function(position) {
+                console.log(position);
+                window.addEventListener('deviceorientation', function(event) {
+                    document.querySelector('.pizza').style.webkitTransform = 'rotate(' + event.alpha + 'deg)';
+                });
+                var coordinates = document.querySelector('.coordinates');
+                coordinates.appendChild(document.createTextNode('Latitude: ' + position.coords.latitude + ', Longitude: ' + position.coords.longitude));
             });
+        }
         </script>
 
     </body>
