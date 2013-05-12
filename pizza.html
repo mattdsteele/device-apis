@@ -17,9 +17,9 @@
     </head>
     <body>
         <!-- Add your site or application content here -->
-        <div class="coordinates" />
+        <div class="coordinates"></div>
         <img class="pizza" src="img/thin-crust-pizza.gif" alt="Pizza time" />
-        <div class="distance" />
+        <div class="distance"></div>
         <script>
           var zios = {
             latitude: 41.255448,
@@ -27,6 +27,9 @@
           };
           Number.prototype.toRad = function() {
             return this * Math.PI / 180;
+          };
+          Number.prototype.toDeg = function() {
+            return this * 180 / Math.PI;
           };
           var distance = function(to, from) {
             var R = 6371; // km
@@ -41,18 +44,28 @@
             var d = R * c;
             return d;
           };
+
+          var bearing = function(to, from) {
+            var dLon = (from.longitude-to.longitude).toRad();
+            var lat1 = to.latitude.toRad();
+            var lat2 = from.latitude.toRad();
+            var y = Math.sin(dLon) * Math.cos(lat2);
+            var x = Math.cos(lat1)*Math.sin(lat2) -
+            Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+            var brng = Math.atan2(y, x).toDeg();
+            return brng;
+          };
+
           $(function() {
             if (Modernizr.geolocation) {
-              window.addEventListener('deviceorientation', function(event) {
-                document.querySelector('.pizza').style.transform = 'rotate(-' + event.alpha + 'deg)';
-              });
               navigator.geolocation.watchPosition(function(position) {
-                $('.coordinates').text('Latitude: ' + position.coords.latitude + ', Longitude: ' + position.coords.longitude);
-                var totalDist = distance({
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude
-                }, zios);
-                $('.distance').text('Distance: ' + totalDist);
+                var currentLocation = { latitude: position.coords.latitude, longitude: position.coords.longitude };
+                var totalDist = distance(currentLocation, zios);
+                var degrees = bearing(currentLocation, zios);
+                $('.distance').text('Distance: ' + totalDist + ' km');
+              window.addEventListener('deviceorientation', function(event) {
+                document.querySelector('.pizza').style.transform = 'rotate(' + (degrees - event.alpha) + 'deg)';
+              });
               });
             }
           });
