@@ -13,11 +13,17 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/foundation.css">
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="components/jquery/jquery.js"></script>
     </head>
     <body>
-      <a class="button" href="pizza.html">Pizza Compass</a>
-      <a class="button" href="battery.html">Battery Level</a>
-      <a class="button" href="lightsensor.html">Light Sensor</a>
-
+      <h1 class="percent">Total Percent</h1>
+      <h2 class="isCharging">Plug it in, plug it in!</h2>
+      <script>
+        $('.percent').text(navigator.battery.level * 100);
+        navigator.battery.addEventListener('chargingchange', function(event) {
+          var battery = event.target;
+          $('.isCharging').text('The battery ' + (battery.charging ? 'is' : 'is not') + ' charging!');
+        });
+      </script>
     </body>
 </html>
