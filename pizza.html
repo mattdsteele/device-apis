@@ -25,6 +25,10 @@
             latitude: 41.255448,
             longitude: -95.931218
           };
+          var peffers = {
+            latitude: 41.27326,
+            longitude: -95.989069
+          };
           Number.prototype.toRad = function() {
             return this * Math.PI / 180;
           };
@@ -64,7 +68,7 @@
                 var degrees = bearing(currentLocation, zios);
                 $('.distance').text('Distance: ' + totalDist + ' km');
               window.addEventListener('deviceorientation', function(event) {
-                document.querySelector('.pizza').style.transform = 'rotate(' + (degrees - event.alpha) + 'deg)';
+                document.querySelector('.pizza').style.transform = 'rotate(' + (degrees - event.alpha + 180) + 'deg)';
               });
               });
             }
