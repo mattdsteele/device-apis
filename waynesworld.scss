@@ -96,19 +96,7 @@ $colors: #217a67 #43936a #a6b039 #d7a715 #de6505 #ea252d #e623a5 #781ba9 #2c77c9
 }
 }
 
-body {
-  background-color: black;
-  padding: 20px;
-  text-align: center;
-}
-
-h1 {
-  color: white;
-  font-size: 100px;
-  line-height: 1.4em;
-  font-family: fontello, "Arial Black", sans-serif;
-  text-transform: uppercase;
-
+.schwing {
   animation: schwing 8s infinite;
   -moz-animation: schwing 8s infinite;
   -webkit-animation: schwing 8s infinite;

@@ -10,10 +10,36 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
-        <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/foundation.css">
         <link rel="stylesheet" href="waynesworld.css">
         <style type="text/css">
+          html {
+            min-height: 100%;
+          }
+          body {
+            background: white;
+            color: black;
+          }
+          .party {
+            display: none;
+            font-size: 6em;
+            text-align: center;
+            margin: 0 auto;
+            width: 100%;
+          }
+          .partytime body {
+            background: black;
+            color: white;
+          }
+          .partytime .party {
+            display: inline-block;
+          }
+          .lightlevel {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+          }
+
         </style>
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
         <script src="components/jquery/jquery.js"></script>
@@ -21,13 +47,24 @@
     <body>
       <h1>Light Level</h1>
       <h2 class="lightlevel"></h2>
+      <div class="party">
+        <div>Party</div>
+        <div>Time</div>
+      </div>
+      <audio src="waynesworld.ogg">
+        <p>Sorry, no web audio!</p>
+      </audio>
       <script>
         window.addEventListener('devicelight', function(event) {
           $('.lightlevel').text(event.value);
           if (event.value < 20) {
-            $('.lightlevel').addClass('schwing');
+            document.querySelector('audio').play();
+            $('html').addClass('partytime');
+            $('.party').addClass('schwing');
           } else {
-            $('.lightlevel').removeClass('schwing');
+            document.querySelector('audio').pause();
+            $('.party').removeClass('schwing');
+            $('html').removeClass('partytime');
           }
         });
       </script>
