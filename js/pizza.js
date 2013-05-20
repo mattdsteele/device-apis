@@ -23,8 +23,8 @@
     var lat2 = from.latitude.toRad();
 
     var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
     return d;
   };
@@ -42,6 +42,17 @@
 
   var locale = zios;
 
+  var getSupportedPropertyName = function(properties) {
+    for (var i = 0; i < properties.length; i++) {
+        if (typeof document.body.style[properties[i]] != "undefined") {
+            return properties[i];
+        }
+    }
+    return null;
+  };
+  var transform = ["transform", "msTransform", "webkitTransform", "mozTransform", "oTransform"];
+  var transformProperty = getSupportedPropertyName(transform);
+
   $(function() {
     if (Modernizr.geolocation) {
       navigator.geolocation.watchPosition(function(position) {
@@ -51,7 +62,8 @@
         var degrees = bearing(currentLocation, locale);
         $('.distance').text('Distance: ' + totalDist + ' km');
         window.addEventListener('deviceorientation', function(event) {
-          document.querySelector('.compass').style.transform = 'rotate(' + (degrees - event.alpha + 180) + 'deg)';
+          var compass = document.querySelector('.compass');
+          compass.style[transformProperty] = 'rotate(' + (degrees - event.alpha + 180) + 'deg)';
         });
       });
     }
