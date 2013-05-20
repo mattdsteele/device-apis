@@ -3,11 +3,7 @@
 
 # TEAM
 
-    <name> -- <role> -- <twitter>
-
-# THANKS
-
-    <name>
+    Matt Steele -- @mattdsteele
 
 # TECHNOLOGY COLOPHON
 
