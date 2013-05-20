@@ -42,17 +42,6 @@
 
   var locale = zios;
 
-  var getSupportedPropertyName = function(properties) {
-    for (var i = 0; i < properties.length; i++) {
-        if (typeof document.body.style[properties[i]] != "undefined") {
-            return properties[i];
-        }
-    }
-    return null;
-  };
-  var transform = ["transform", "msTransform", "webkitTransform", "mozTransform", "oTransform"];
-  var transformProperty = getSupportedPropertyName(transform);
-
   $(function() {
     if (Modernizr.geolocation) {
       navigator.geolocation.watchPosition(function(position) {
@@ -63,7 +52,7 @@
         $('.distance').text('Distance: ' + totalDist + ' km');
         window.addEventListener('deviceorientation', function(event) {
           var compass = document.querySelector('.compass');
-          compass.style[transformProperty] = 'rotate(' + (degrees - event.alpha + 180) + 'deg)';
+          compass.style[Modernizr.prefixed('transform')] = 'rotate(' + (degrees - event.alpha + 180) + 'deg)';
         });
       });
     }
