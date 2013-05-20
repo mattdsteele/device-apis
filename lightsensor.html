@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/foundation.css">
+        <link rel="stylesheet" href="waynesworld.css">
+        <style type="text/css">
+          html {
+            min-height: 100%;
+          }
+          body {
+            background: white;
+            color: black;
+          }
+          .party {
+            display: none;
+            font-size: 6em;
+            text-align: center;
+            margin: 0 auto;
+            width: 100%;
+          }
+          .partytime body {
+            background: black;
+            color: white;
+          }
+          .partytime .party {
+            display: inline-block;
+          }
+          .lightlevel {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+          }
+
+        </style>
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="components/jquery/jquery.js"></script>
+    </head>
+    <body>
+      <h1>Light Level</h1>
+      <h2 class="lightlevel"></h2>
+      <div class="party">
+        <div>Party</div>
+        <div>Time</div>
+      </div>
+      <audio src="waynesworld.ogg">
+        <p>Sorry, no web audio!</p>
+      </audio>
+      <script>
+        window.addEventListener('devicelight', function(event) {
+          $('.lightlevel').text(event.value);
+          if (event.value < 20) {
+            document.querySelector('audio').play();
+            $('html').addClass('partytime');
+            $('.party').addClass('schwing');
+          } else {
+            document.querySelector('audio').pause();
+            $('.party').removeClass('schwing');
+            $('html').removeClass('partytime');
+          }
+        });
+      </script>
+    </body>
+</html>
