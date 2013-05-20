@@ -42,7 +42,6 @@
 
         </style>
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-        <script src="components/jquery/jquery.js"></script>
     </head>
     <body>
       <h1>Light Level</h1>
@@ -54,19 +53,7 @@
       <audio src="waynesworld.ogg">
         <p>Sorry, no web audio!</p>
       </audio>
-      <script>
-        window.addEventListener('devicelight', function(event) {
-          $('.lightlevel').text(event.value);
-          if (event.value < 20) {
-            document.querySelector('audio').play();
-            $('html').addClass('partytime');
-            $('.party').addClass('schwing');
-          } else {
-            document.querySelector('audio').pause();
-            $('.party').removeClass('schwing');
-            $('html').removeClass('partytime');
-          }
-        });
-      </script>
+      <script src="components/jquery/jquery.js"></script>
+      <script src="js/lightsensor.js"></script>
     </body>
 </html>

@@ -13,66 +13,23 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/foundation.css">
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-        <script src="components/jquery/jquery.js"></script>
+        <style type="text/css">
+          .compass {
+            text-align: center;
+          }
+          img {
+            width: 100%;
+          }
+        </style>
     </head>
     <body>
         <!-- Add your site or application content here -->
-        <div class="coordinates"></div>
-        <img class="pizza" src="img/thin-crust-pizza.gif" alt="Pizza time" />
+        <div class="target"></div>
+        <div class="compass">
+          <img class="pizza" src="img/thin-crust-pizza.gif" alt="Pizza time" />
+        </div>
         <div class="distance"></div>
-        <script>
-          var zios = {
-            latitude: 41.255448,
-            longitude: -95.931218
-          };
-          var peffers = {
-            latitude: 41.27326,
-            longitude: -95.989069
-          };
-          Number.prototype.toRad = function() {
-            return this * Math.PI / 180;
-          };
-          Number.prototype.toDeg = function() {
-            return this * 180 / Math.PI;
-          };
-          var distance = function(to, from) {
-            var R = 6371; // km
-            var dLat = (from.latitude-to.latitude).toRad();
-            var dLon = (from.longitude-to.longitude).toRad();
-            var lat1 = to.latitude.toRad();
-            var lat2 = from.latitude.toRad();
-
-            var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-            var d = R * c;
-            return d;
-          };
-
-          var bearing = function(to, from) {
-            var dLon = (from.longitude-to.longitude).toRad();
-            var lat1 = to.latitude.toRad();
-            var lat2 = from.latitude.toRad();
-            var y = Math.sin(dLon) * Math.cos(lat2);
-            var x = Math.cos(lat1)*Math.sin(lat2) -
-            Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
-            var brng = Math.atan2(y, x).toDeg();
-            return brng;
-          };
-
-          $(function() {
-            if (Modernizr.geolocation) {
-              navigator.geolocation.watchPosition(function(position) {
-                var currentLocation = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-                var totalDist = distance(currentLocation, zios);
-                var degrees = bearing(currentLocation, zios);
-                $('.distance').text('Distance: ' + totalDist + ' km');
-              window.addEventListener('deviceorientation', function(event) {
-                document.querySelector('.pizza').style.transform = 'rotate(' + (degrees - event.alpha + 180) + 'deg)';
-              });
-              });
-            }
-          });
-        </script>
+        <script src="components/jquery/jquery.js"></script>
+        <script src="js/pizza.js"></script>
     </body>
 </html>

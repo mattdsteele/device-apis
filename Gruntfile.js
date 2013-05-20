@@ -4,11 +4,11 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     sass: {
-            waynes: {
-                      files: {
-                               'waynesworld.css' : 'waynesworld.scss'
-                             }
-                    }
+      waynes: {
+        files: {
+         'waynesworld.css' : 'waynesworld.scss'
+       }
+      }
     }
   });
 
