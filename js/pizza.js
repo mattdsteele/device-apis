@@ -40,7 +40,7 @@
     return brng;
   };
 
-  var locale = zios;
+  var locale = peffers;
 
   $(function() {
     if (Modernizr.geolocation) {
@@ -52,7 +52,10 @@
         $('.distance').text('Distance: ' + totalDist + ' km');
         window.addEventListener('deviceorientation', function(event) {
           var compass = document.querySelector('.compass');
-          compass.style[Modernizr.prefixed('transform')] = 'rotate(' + (degrees - event.alpha + 180) + 'deg)';
+          //This works with iOS devices but nothing else. See https://gist.github.com/mattdsteele/5615925
+          var rotation = degrees - event.webkitCompassHeading + 180;
+
+          compass.style[Modernizr.prefixed('transform')] = 'rotate(' + rotation + 'deg)';
         });
       });
     }
