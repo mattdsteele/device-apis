@@ -25,8 +25,7 @@
     var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
       Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    var d = R * c;
-    return d;
+    return R * c;
   };
 
   var bearing = function(to, from) {
@@ -34,30 +33,37 @@
     var lat1 = to.latitude.toRad();
     var lat2 = from.latitude.toRad();
     var y = Math.sin(dLon) * Math.cos(lat2);
-    var x = Math.cos(lat1)*Math.sin(lat2) -
-      Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
-    var brng = Math.atan2(y, x).toDeg();
-    return brng;
+    var x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+    return Math.atan2(y, x).toDeg();
   };
 
   var locale = peffers;
 
   $(function() {
-    if (Modernizr.geolocation) {
-      navigator.geolocation.watchPosition(function(position) {
-        var currentLocation = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-        $('.target').text('Distance to ' + locale.name);
-        var totalDist = distance(currentLocation, locale);
-        var degrees = bearing(currentLocation, locale);
-        $('.distance').text('Distance: ' + totalDist + ' km');
-        window.addEventListener('deviceorientation', function(event) {
-          var compass = document.querySelector('.compass');
-          //This works with iOS devices but nothing else. See https://gist.github.com/mattdsteele/5615925
-          var rotation = degrees - event.webkitCompassHeading + 180;
 
-          compass.style[Modernizr.prefixed('transform')] = 'rotate(' + rotation + 'deg)';
-        });
-      });
+    if (!Modernizr.geolocation) {
+      return;
     }
+
+    $('.target').text('Distance to ' + locale.name);
+    navigator.geolocation.watchPosition(function(position) {
+      var currentLocation = { latitude: position.coords.latitude, longitude: position.coords.longitude };
+      var totalDist = distance(currentLocation, locale),
+      degrees = bearing(currentLocation, locale);
+
+      if (totalDist < 0.015) {
+        $('body').addClass('nearby');
+      }
+
+      $('.distance').text('Distance: ' + totalDist.toFixed(2) + ' km');
+
+      window.addEventListener('deviceorientation', function(event) {
+        var compass = document.querySelector('.compass');
+        //This works with iOS devices but nothing else. See https://gist.github.com/mattdsteele/5615925
+        var rotation = degrees - event.webkitCompassHeading + 180;
+
+        compass.style[Modernizr.prefixed('transform')] = 'rotate(' + rotation + 'deg)';
+      });
+    });
   });
 })();
