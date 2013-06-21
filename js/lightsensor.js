@@ -1,5 +1,5 @@
 (function() {
-  var lightSensorThreshold = 20;
+  var lightSensorThreshold = 10;
   window.addEventListener('devicelight', function(event) {
     $('.lightlevel').text(event.value);
     if (event.value < lightSensorThreshold) {

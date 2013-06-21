@@ -51,7 +51,7 @@
       var totalDist = distance(currentLocation, locale),
       degrees = bearing(currentLocation, locale);
 
-      if (totalDist < 0.015) {
+      if (totalDist < 0.05) {
         $('body').addClass('nearby');
       }
 
