@@ -59,8 +59,8 @@
 
       window.addEventListener('deviceorientation', function(event) {
         var compass = document.querySelector('.compass');
-        //This works with iOS devices but nothing else. See https://gist.github.com/mattdsteele/5615925
-        var rotation = degrees - event.webkitCompassHeading + 180;
+        //This works with Mobile Safari and Firefox but nothing else. See https://gist.github.com/mattdsteele/5615925
+        var rotation = degrees - (event.webkitCompassHeading || event.alpha)+ 180;
 
         compass.style[Modernizr.prefixed('transform')] = 'rotate(' + rotation + 'deg)';
       });
